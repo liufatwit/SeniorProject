@@ -111,6 +111,28 @@ app.get("/listGroups", (req, res) => {
     }
   });
 });
+app.get("/filterGroups", (req, res) => {
+  const filterTags = req.query.tags.split(",");
+  const placeholders = filterTags.map(() => "?").join(",");
+  const sql = `
+    SELECT groups.*, GROUP_CONCAT(tags.tag_name) AS tags
+    FROM groups
+    LEFT JOIN group_tags ON groups.id = group_tags.group_id
+    LEFT JOIN tags ON group_tags.tag_id = tags.id
+    WHERE tags.tag_name IN (${placeholders})
+    GROUP BY groups.id
+  `;
+  db.all(sql, filterTags, (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      res
+        .status(500)
+        .send("Failed to fetch filtered groups. Please try again.");
+    } else {
+      res.status(200).json(rows);
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
