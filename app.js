@@ -128,3 +128,46 @@ function listGroups() {
   };
   xhr.send();
 }
+function filterGroups() {
+  const filterTags = document
+    .getElementById("filter-tags")
+    .value.split(",")
+    .map((tag) => tag.trim());
+
+  if (!filterTags || filterTags.length === 0) {
+    appendMessage("Please enter tags to filter groups.");
+    return;
+  }
+
+  // Send a GET request to the server to fetch filtered groups
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    `http://localhost:5501/filterGroups?tags=${encodeURIComponent(
+      filterTags.join(",")
+    )}`,
+    true
+  );
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const groupsWithTags = JSON.parse(xhr.responseText);
+      if (groupsWithTags.length === 0) {
+        appendMessage("No groups found with the given tags.");
+      } else {
+        for (const group of groupsWithTags) {
+          const tags = group.tags ? group.tags.split(",") : [];
+          appendMessage(`
+            Group Name: ${group.group_name}
+            Max Players: ${group.max_players}
+            Description: ${group.description}
+            Tags: ${tags.join(", ")}
+          `);
+        }
+      }
+    } else {
+      appendMessage("Failed to fetch groups. Please try again.");
+    }
+  };
+  xhr.send();
+}
