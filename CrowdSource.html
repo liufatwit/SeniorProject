@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <body style="background-color:aquamarine;"></body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LFG System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f7f7f7;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #message-container {
+      margin-top: 20px;
+    }
+    #message-container p {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>LFG System</h1>
+
+  <div id="output"></div>
+  <div>
+    <label for="group-name">Group Name:</label>
+    <input type="text" id="group-name" placeholder="Enter group name">
+  </div>
+
+  <div>
+    <label for="max-players">Max Players:</label>
+    <input type="number" id="max-players" min="1" placeholder="Enter maximum number of players">
+  </div>
+
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" rows="4" placeholder="Enter group description"></textarea>
+  </div>
+
+  <div>
+    <label for="tags">Tags (comma-separated):</label>
+    <input type="text" id="tags" placeholder="Enter tags for the group">
+  </div>
+
+  <button onclick="createGroup()">Create Group</button>
+  <button onclick="listGroups()">List Groups</button>
+
+  <div id="message-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
