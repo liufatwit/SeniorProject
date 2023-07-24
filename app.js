@@ -171,3 +171,29 @@ function filterGroups() {
   };
   xhr.send();
 }
+function deleteGroup() {
+  const groupName = document.getElementById("delete-group-name").value;
+
+  if (!groupName.trim()) {
+    appendMessage("Please enter a valid group name to delete.");
+    return;
+  }
+
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "DELETE",
+    `http://localhost:5501/deleteGroup/${encodeURIComponent(groupName)}`,
+    true
+  );
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      appendMessage(`Group "${groupName}" deleted successfully.`);
+      // Refresh the list of groups after deletion
+      listGroups();
+    } else {
+      appendMessage("Failed to delete group. Please try again.");
+    }
+  };
+  xhr.send();
+}
