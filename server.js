@@ -44,6 +44,14 @@ db.run(
     }
   }
 );
+db.run(
+  "CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY, group_id INTEGER NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE);",
+  (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+  }
+);
 app.post("/createGroup", (req, res) => {
   const { group_name, max_players, description, tags } = req.body;
 
