@@ -133,6 +133,25 @@ app.get("/filterGroups", (req, res) => {
     }
   });
 });
+// Add a new route for handling DELETE requests to delete a group by name
+app.delete("/deleteGroup/:groupName", (req, res) => {
+  const groupName = req.params.groupName;
+
+  if (!groupName || groupName.trim() === "") {
+    res.status(400).send("Invalid group name.");
+    return;
+  }
+
+  const sql = "DELETE FROM groups WHERE group_name = ?";
+  db.run(sql, [groupName], (err) => {
+    if (err) {
+      console.error("Error deleting group:", err.message);
+      res.status(500).send("Failed to delete group. Please try again.");
+    } else {
+      res.status(200).send("Group deleted successfully.");
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
